@@ -434,7 +434,7 @@ class Codoon:
             points = []
         return points
 
-    def parse_points_to_gpx(self, run_points_data, sport_type):
+    def parse_points_to_gpx(self, run_points_data, sport_type, time):
         # TODO for now kind of same as `keep` maybe refactor later
         points_dict_list = []
         for point in run_points_data[:-1]:
@@ -448,8 +448,9 @@ class Codoon:
         gpx = gpxpy.gpx.GPX()
         gpx.nsmap["gpxtpx"] = "http://www.garmin.com/xmlschemas/TrackPointExtension/v1"
         gpx_track = gpxpy.gpx.GPXTrack()
-        gpx_track.name = "gpx from codoon"
-        gpx_track.type = "Run" if sport_type == 1 else ("Hike" if sport_type == 0 else "Ride")
+        type = "Run" if sport_type == 1 else ("Hike" if sport_type == 0 else "Ride")
+        gpx_track.name = "{} (Codoon {})".format(time, type)
+        gpx_track.type = type
         gpx.tracks.append(gpx_track)
 
         # Create first segment in our GPX track:
@@ -512,8 +513,8 @@ class Codoon:
         if with_gpx:
             # pass the track no points
             if str(log_id) not in old_gpx_ids and run_points_data:
-                gpx_data = self.parse_points_to_gpx(run_points_data, run_data["sports_type"])
                 start_date = time.strptime(start_time, "%Y-%m-%dT%H:%M:%S")
+                gpx_data = self.parse_points_to_gpx(run_points_data, run_data["sports_type"], time.strftime("%Y-%m-%d %H:%M:%S"))
                 download_codoon_gpx(gpx_data, run_data["sports_type"], time.strftime("%Y.%m.%d-%H.%M.%S", start_date), str(log_id))
         heart_rate_dict = run_data.get("heart_rate")
         heart_rate = None
