@@ -10,11 +10,15 @@ OUTPUT_DIR = os.path.join(parent, "activities")
 GPX_FOLDER = os.path.join(parent, "GPX_OUT")
 TCX_FOLDER = os.path.join(parent, "TCX_OUT")
 FIT_FOLDER = os.path.join(parent, "FIT_OUT")
+TEMP_FOLDER = os.path.join(parent, "TEMP_OUT")
+GARMIN_UPLOAD_FOLDER = os.path.join(parent, "GARMIN_UPLOAD")
 ENDOMONDO_FILE_DIR = os.path.join(parent, "Workouts")
 FOLDER_DICT = {
     "gpx": GPX_FOLDER,
     "tcx": TCX_FOLDER,
     "fit": FIT_FOLDER,
+    "temp": TEMP_FOLDER,
+    "garmin_up": GARMIN_UPLOAD_FOLDER,
 }
 SQL_FILE = os.path.join(parent, "run_page", "data.db")
 JSON_FILE = os.path.join(parent, "src", "static", "activities.json")

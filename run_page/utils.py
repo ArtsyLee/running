@@ -117,3 +117,16 @@ def upload_file_to_strava(client, file_name, data_type, force_to_run=True):
         print(
             f"Uploading {data_type} file: {file_name} to strava, upload_id: {r.upload_id}."
         )
+
+def upload_gpx_to_strava(client, file_name, name, desc, type = "run"):
+    with open(file_name, "rb") as f:
+        try:
+            r = client.upload_activity(activity_file = f, data_type = "gpx", name = name, description = desc, activity_type = type)
+        except RateLimitExceeded as e:
+            timeout = e.timeout
+            print()
+            print(f"Strava API Rate Limit Exceeded. Retry after {timeout} seconds")
+            print()
+            time.sleep(timeout)
+            r = client.upload_activity(activity_file = f, data_type = "gpx", name = name, description = desc, activity_type = type)
+        print(f"Uploading gpx file: {file_name} to strava, upload_id: {r.upload_id}.")
